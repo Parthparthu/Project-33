@@ -1,12 +1,12 @@
 class Particle {
-    constructor(x, y,r) {
+    constructor(x, y,radius) {
 
-        var options ={
+        var options= {
             restitution:0.4
         }
-        this.r=r;
+        this.radius = radius;
       
-        this.body = Bodies.circle(x, y, this.r,options);       
+        this.body = Bodies.circle(x, y, radius/2, options);       
         this.color=color(random(0, 255), random(0, 255), random(0, 255));
         World.add(world, this.body);
 
@@ -23,7 +23,7 @@ class Particle {
         noStroke();
         fill(this.color)
         ellipseMode(RADIUS);
-        ellipse(0, 0, this.r,this.r);
+        ellipse(0, 0, this.radius,this.radius);
         pop();
     }
 
