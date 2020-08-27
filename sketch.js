@@ -2,6 +2,7 @@ const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
+const Events = Matter.Events;
  
 var particles = [];
 var plinkos = [];
@@ -9,7 +10,7 @@ var divisions = [];
 
 var engine, world;
 var ground1;
-var particle1;
+var part;
 var turn = 0;
 var divisionHeight = 300;
 var score = 0;
@@ -76,6 +77,12 @@ function draw() {
   text("200", 730, 550);
 
   Engine.update(engine);
+  if ( gameState =="end") {
+    
+    textSize(100);
+    text("GameOver", 150, 250);
+    //return
+  }
   
    for (var i = 0; i < plinkos.length; i++) {
      
@@ -85,28 +92,60 @@ function draw() {
    //if(frameCount % 60 === 0){
    //}
 
-  for (var j = 0; j < particles.length; j++) {
+  //for (var j = 0; j < particles.length; j++) {
    
-     particles[j].display();
-   }
+    // particles[j].display();
+   //}
    for (var k = 0; k < divisions.length; k++) {
      
      divisions[k].display();
    }
 
-   if (particle1 !== null){
-     particle1.display();
-   }
+   if (part != null)
+   {
+     //part.display();
+    part.display();
+         
+         if (part.body.position.y>760)
+         {
+               if (part.body.position.x < 300) 
+               {
+                   score=score+500;      
+                   part=null;
+                   if ( turn>= 5) gameState ="end";                          
+               }
+ 
+ 
+               else if (part.body.position.x < 600 && part.body.position.x > 301 ) 
+               {
+                     score = score + 100;
+                     part=null;
+                     if ( turn>= 5) gameState ="end";
+ 
+               }
+               else if (part.body.position.x < 900 && part.body.position.x > 601 )
+               {
+                     score = score + 200;
+                     part=null;
+                     if ( turn>= 5)  gameState ="end";
+ 
+               }      
+               
+         }
+   
+       }
+   
+    
 
 }
 
-function mousePressed()
+function keyPressed()
 {
-  //if(keyCode === 32) {
+ if(keyCode === 32) {
    if (gameState !== "end") 
    {
-     score++;
-     particle1 = new Particle(mouseX, 10, 10, 10);
+     turn++;
+     part = new Particle(mouseX, 10, 10, 10);
    }
-  //}
+  }
 }
